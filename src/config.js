@@ -1,5 +1,5 @@
 // Your Gemini API configuration
-const API_KEY = 'AIzaSyDHXnXIsEjDm_JbpB5FuF5TImvKHTrFpvM';
+const API_KEY = 'enter_your_api_key';
 
 if (!API_KEY) {
     throw new Error('API key is not configured');
