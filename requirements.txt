@@ -1,0 +1,44 @@
+# Automated Installation Script
+
+# 1. VS Code Extensions (Install automatically)
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension esbenp.prettier-vscode
+code --install-extension bradlc.vscode-tailwindcss
+code --install-extension ms-vscode.vscode-typescript-next
+code --install-extension ritwickdey.LiveServer
+code --install-extension eamodio.gitlens
+code --install-extension formulahendry.auto-rename-tag
+code --install-extension christian-kohler.path-intellisense
+code --install-extension usernamehw.errorlens
+code --install-extension wix.vscode-import-cost
+
+# 2. Project Dependencies
+## Core Dependencies
+npm install react@latest react-dom@latest @google/generative-ai lucide-react
+
+## Development Dependencies
+npm install -D typescript @types/react @types/react-dom @vitejs/plugin-react
+npm install -D tailwindcss postcss autoprefixer
+npm install -D eslint @eslint/js eslint-plugin-react-hooks eslint-plugin-react-refresh
+
+# 3. Environment Setup Requirements
+## Node.js >= 18.0.0
+## npm >= 8.0.0
+## VS Code >= 1.80.0
+
+# 4. System Requirements
+## Modern browser with ES6 support
+## JavaScript enabled
+## Cookies enabled
+
+# 5. Project Initialization
+npm create vite@latest . -- --template react-ts
+npm install
+npx tailwindcss init -p
+
+# 6. Environment Variables
+## Create .env file with:
+VITE_GEMINI_API_KEY=your_api_key_here
+
+# 7. Start Development Server
+npm run dev

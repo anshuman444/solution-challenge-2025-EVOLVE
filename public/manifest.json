@@ -1,0 +1,16 @@
+{
+  "name": "Kisan Mitra",
+  "short_name": "Kisan Mitra",
+  "description": "Your personal farming assistant",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c7a2c",
+  "icons": [
+    {
+      "src": "https://api.iconify.design/lucide:sprout.svg?color=%232c7a2c",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
