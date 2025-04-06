@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediction Result</title>
+  <style>
+    body {
+      background: #e1f5e1;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #2d572c;
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 50px;
+      max-width: 650px;
+      text-align: center;
+      color: #1b5e20;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 25px;
+      color: #388e3c;
+    }
+
+    .confidence {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #7cb342;
+    }
+
+    .advice {
+      font-size: 18px;
+      margin-top: 15px;
+      color: #388e3c;
+    }
+
+    .marquee {
+      background-color: #a5d6a7;
+      color: #1b5e20;
+      padding: 12px 0;
+      border-radius: 12px;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      animation: marquee 20s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="marquee">🌱 Revolutionizing Agriculture with AI. Predict. Cultivate. Grow. 🌱</div>
+
+  <div class="container">
+    <h1>🧠 Prediction Result</h1>
+    <div class="confidence">Predicted Class: {{ predicted_class }} ({{ confidence }}% confidence)</div>
+    <div class="advice">{{ advice }}</div>
+  </div>
+
+</body>
+</html>
+

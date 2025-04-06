@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Farming Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #dcedc8, #c8e6c9);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .background-deco {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('image.png') no-repeat center center/cover;
+      opacity: 0.08;
+      z-index: 0;
+    }
+
+    .slogan-popup {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(5px);
+      padding: 10px 28px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1b5e20;
+      animation: fadeSlideIn 1s ease-out forwards;
+      opacity: 0;
+      z-index: 3;
+    }
+
+    @keyframes fadeSlideIn {
+      0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+      100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 25px;
+      padding: 50px 30px;
+      width: 90%;
+      max-width: 1100px;
+      box-shadow: 0 0 30px rgba(0, 128, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 30px;
+      background: linear-gradient(to right, #388e3c, #7cb342);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .flex-wrapper {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .section {
+      flex: 1;
+      min-width: 300px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #2e7d32;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input[type="file"] {
+      padding: 12px;
+      border: 2px dashed #a5d6a7;
+      border-radius: 12px;
+      background-color: #f1f8e9;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button[type="submit"] {
+      padding: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(to right, #8bc34a, #aed581);
+      color: #000;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #66bb6a, #9ccc65);
+    }
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 400px;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 10px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .chat-input button {
+      padding: 10px 20px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .chat-input button:hover {
+      background: #388e3c;
+    }
+
+    .message {
+      margin: 6px 0;
+      padding: 10px 14px;
+      border-radius: 15px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .user-message {
+      background: #c8e6c9;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    .bot-message {
+      background: #e8f5e9;
+      align-self: flex-start;
+      margin-right: auto;
+    }
+
+    .bot-loading::after {
+      content: "⏳ Thinking...";
+      font-style: italic;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      .flex-wrapper {
+        flex-direction: column;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="background-deco" role="presentation"></div>
+  <div class="slogan-popup" id="slogan"></div>
+
+  <div class="container">
+    <h1>🌱 Smart Farming Assistant</h1>
+    <div class="flex-wrapper">
+      
+      <!-- Upload Section -->
+      <div class="section">
+        <h2>Disease Detection</h2>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+          <label for="imageInput">Upload a potato leaf image:</label>
+          <input type="file" name="file" id="imageInput" accept="image/*" required>
+          <button type="submit">Upload & Analyze</button>
+        </form>
+      </div>
+
+      <!-- Chat Section -->
+      <div class="section">
+        <h2>Agricultural Assistant</h2>
+        <div class="chat-container">
+          <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">👋 Hi! Need help with your crops? Ask me anything!</div>
+          </div>
+          <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ask about pests, care, tips..." />
+            <button onclick="sendMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Slogan rotation
+    const slogans = [
+      "🌿 Empowering Farmers with AI. Predict. Cultivate. Prosper.",
+      "🚜 Revolutionizing Agriculture with Intelligence.",
+      "🌾 From Image to Insight: Precision Starts Here.",
+      "📸 Upload. Predict. Transform Your Yield."
+    ];
+
+    const sloganEl = document.getElementById('slogan');
+    let idx = 0;
+
+    function showNextSlogan() {
+      sloganEl.style.opacity = 0;
+      setTimeout(() => {
+        sloganEl.textContent = slogans[idx];
+        sloganEl.style.opacity = 1;
+        idx = (idx + 1) % slogans.length;
+      }, 500);
+    }
+
+    showNextSlogan();
+    setInterval(showNextSlogan, 4000);
+
+    // Chat functionality
+    function sendMessage() {
+      const userInput = document.getElementById('userInput');
+      const message = userInput.value.trim();
+      if (!message) return;
+
+      addMessage(message, 'user-message');
+      userInput.value = '';
+
+      const loading = addMessage('', 'bot-message bot-loading');
+
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message })
+      })
+      .then(response => response.json())
+      .then(data => {
+        loading.remove();
+        addMessage(data.response || '✅ Got it!', 'bot-message');
+      })
+      .catch(() => {
+        loading.remove();
+        addMessage("⚠️ Sorry, I couldn't reach the server.", 'bot-message');
+      });
+    }
+
+    function addMessage(text, className) {
+      const chatMessages = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = `message ${className}`;
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return div;
+    }
+
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
